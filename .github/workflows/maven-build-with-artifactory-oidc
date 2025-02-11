@@ -77,13 +77,13 @@ jobs:
         name: Build Docker image
         if: github.ref == 'refs/heads/main'
         run: |
-          jf docker build -t soleng.jfrog.io/fg-docker/${{ env.petclinicArtifactName }}:${{ env.petclinicVersion }} --build-arg petclinicArtifact=./target/${{ env.petclinicArtifactName }}-${{ env.petclinicVersion }}.jar .
-          jf docker push soleng.jfrog.io/fg-docker/${{ env.petclinicArtifactName }}:${{ env.petclinicVersion }} --project ${{ env.JFROG_CLI_BUILD_PROJECT }}
+          jf docker build -t soleng.jfrog.io/mikeho-github-docker/${{ env.petclinicArtifactName }}:${{ env.petclinicVersion }} --build-arg petclinicArtifact=./target/${{ env.petclinicArtifactName }}-${{ env.petclinicVersion }}.jar .
+          jf docker push soleng.jfrog.io/mikeho-github-docker/${{ env.petclinicArtifactName }}:${{ env.petclinicVersion }} --project ${{ env.JFROG_CLI_BUILD_PROJECT }}
       -
         name: Scan Docker image
         if: github.ref == 'refs/heads/main'
         run: |
-          jf docker scan soleng.jfrog.io/fg-docker/${{ env.petclinicArtifactName }}:${{ env.petclinicVersion }} --severity='HIGH,CRITICAL' --vuln
+          jf docker scan soleng.jfrog.io/mikeho-github-docker/${{ env.petclinicArtifactName }}:${{ env.petclinicVersion }} --severity='HIGH,CRITICAL' --vuln
       -
         name: Publish build info
         if: github.ref == 'refs/heads/main'
@@ -94,20 +94,20 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: |
           jf build-scan --vuln --fail=false --project ${{ env.JFROG_CLI_BUILD_PROJECT }} "${{ env.JFROG_CLI_BUILD_NAME }}" "${{ env.JFROG_CLI_BUILD_NUMBER }}"
-      -
-        name: Create Release Bundle
-        if: github.ref == 'refs/heads/main'
-        run: |
-          echo "=== Generating Release Bundle ==="
-          echo '
-                {
-                  "builds": [
-                    {
-                      "name": "${{ env.JFROG_CLI_BUILD_NAME }}",
-                      "number": "${{ env.JFROG_CLI_BUILD_NUMBER }}",
-                      "project": "${{ env.JFROG_CLI_BUILD_PROJECT }}"
-                    }
-                  ]
-                }
-          ' > builds.json
-          jf release-bundle-create --builds=./builds.json --project ${{ env.JFROG_CLI_BUILD_PROJECT }} --signing-key fredericg-gpg "${{ env.petclinicArtifactName }}" "${{ env.petclinicVersion }}-build${{ env.JFROG_CLI_BUILD_NUMBER }}"
+#      -
+#        name: Create Release Bundle
+#        if: github.ref == 'refs/heads/main'
+#        run: |
+#          echo "=== Generating Release Bundle ==="
+#          echo '
+#                {
+#                  "builds": [
+#                    {
+#                      "name": "${{ env.JFROG_CLI_BUILD_NAME }}",
+#                      "number": "${{ env.JFROG_CLI_BUILD_NUMBER }}",
+#                      "project": "${{ env.JFROG_CLI_BUILD_PROJECT }}"
+#                    }
+#                  ]
+#                }
+#          ' > builds.json
+#          jf release-bundle-create --builds=./builds.json --project ${{ env.JFROG_CLI_BUILD_PROJECT }} --signing-key fredericg-gpg "${{ env.petclinicArtifactName }}" "${{ env.petclinicVersion }}-build${{ env.JFROG_CLI_BUILD_NUMBER }}"
