@@ -28,18 +28,16 @@ jobs:
         java: [ '17' ]
 
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@v4
-      - 
-        name: Set up JDK ${{matrix.java}}
+        
+      - name: Set up JDK ${{matrix.java}}
         uses: actions/setup-java@v4
         with:
           java-version: ${{matrix.java}}
           distribution: 'adopt'
       
-      - 
-        name: Setup JFrog CLI
+      - name: Setup JFrog CLI
         uses: jfrog/setup-jfrog-cli@v4
         env:
           JF_URL: https://${{ vars.JF_URL }}/
@@ -47,35 +45,33 @@ jobs:
           oidc-provider-name: mikeho-github
           oidc-audience: mikeho-audience
           
-      -
-        name: Configure Build
+      - name: Configure Build
         run: |
           jf gradle-config --repo-resolve mikeho-petclinic-gradle-remote --repo-deploy mikeho-petclinic-gradle-release-local
-      -
-        name: JFrog Curation Audit
+      
+      - name: JFrog Curation Audit
         run: |
           jf mvn-config --repo-resolve-releases mikeho-petclinic-gradle-remote --repo-resolve-snapshots mikeho-petclinic-gradle-remote --repo-deploy-releases mikeho-petclinic-gradle-release-local --repo-deploy-snapshots mikeho-petclinic-gradle-dev-local
           echo "petclinicArtifactName=$(mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout)" >> $GITHUB_ENV
           echo "petclinicVersion=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
           jf curation-audit
-      -
-        name: Audit Source Code
+      
+      - name: Audit Source Code
         run: |
           jf audit --licenses --format=table --gradle=true
-      -
-        name: Build Gradle package
+          
+      - name: Build Gradle package
         run: |
           jf gradle clean build --build-name=${{ env.JFROG_CLI_BUILD_NAME }} --build-number=${{ env.JFROG_CLI_BUILD_NUMBER }} --project=${{ env.JFROG_CLI_BUILD_PROJECT }}
           jf gradle artifactoryPublish --build-name=${{ env.JFROG_CLI_BUILD_NAME }} --build-number=${{ env.JFROG_CLI_BUILD_NUMBER }} --project=${{ env.JFROG_CLI_BUILD_PROJECT }}     
-          # --scan=true
-      -
-        name: Publish build info
+      
+      - name: Publish build info
         if: github.ref == 'refs/heads/main'
         run: |
           # Collect environment variables for the build
-          # jf rt build-collect-env --project ${{ env.JFROG_CLI_BUILD_PROJECT }} ${{ env.JFROG_CLI_BUILD_NAME }} ${{ env.JFROG_CLI_BUILD_NUMBER }}  
+          jf rt build-collect-env --project ${{ env.JFROG_CLI_BUILD_PROJECT }} ${{ env.JFROG_CLI_BUILD_NAME }} ${{ env.JFROG_CLI_BUILD_NUMBER }}  
           # Collect VCS details from Git and add them to the build
-          # jf rt build-add-git --project ${{ env.JFROG_CLI_BUILD_PROJECT }} ${{ env.JFROG_CLI_BUILD_NAME }} ${{ env.JFROG_CLI_BUILD_NUMBER }}
+          jf rt build-add-git --project ${{ env.JFROG_CLI_BUILD_PROJECT }} ${{ env.JFROG_CLI_BUILD_NAME }} ${{ env.JFROG_CLI_BUILD_NUMBER }}
           jf rt build-publish --project ${{ env.JFROG_CLI_BUILD_PROJECT }} ${{ env.JFROG_CLI_BUILD_NAME }} ${{ env.JFROG_CLI_BUILD_NUMBER }}
       
       - name: Scan build
