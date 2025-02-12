@@ -65,20 +65,20 @@ jobs:
       -
         name: Build Gradle package
         run: |
-          jf gradle clean build --build-name=${{ JFROG_CLI_BUILD_NAME }} --build-number=${{ env.JFROG_CLI_BUILD_NUMBER }} --project=${{ env.JFROG_CLI_BUILD_PROJECT }}
-          jf gradle artifactoryPublish --build-name=${{ JFROG_CLI_BUILD_NAME }} --build-number=${{ env.JFROG_CLI_BUILD_NUMBER }} --project=${{ env.JFROG_CLI_BUILD_PROJECT }} --scan=true    
+          jf gradle clean build --build-name=${{ env.JFROG_CLI_BUILD_NAME }} --build-number=${{ env.JFROG_CLI_BUILD_NUMBER }} --project=${{ env.JFROG_CLI_BUILD_PROJECT }}
+          jf gradle artifactoryPublish --build-name=${{ env.JFROG_CLI_BUILD_NAME }} --build-number=${{ env.JFROG_CLI_BUILD_NUMBER }} --project=${{ env.JFROG_CLI_BUILD_PROJECT }} --scan=true    
           
       -
         name: Publish build info
         if: github.ref == 'refs/heads/main'
         run: |
           # Collect environment variables for the build
-          jf rt bce --build-name=${{ JFROG_CLI_BUILD_NAME }} --build-number=${{ env.JFROG_CLI_BUILD_NUMBER }} --project ${{ env.JFROG_CLI_BUILD_PROJECT }} 
+          jf rt bce --build-name=${{ env.JFROG_CLI_BUILD_NAME }} --build-number=${{ env.JFROG_CLI_BUILD_NUMBER }} --project ${{ env.JFROG_CLI_BUILD_PROJECT }} 
           # Collect VCS details from Git and add them to the build
-          jf rt bag --build-name=${{ JFROG_CLI_BUILD_NAME }} --build-number=${{ env.JFROG_CLI_BUILD_NUMBER }} --project ${{ env.JFROG_CLI_BUILD_PROJECT }}
+          jf rt bag --build-name=${{ env.JFROG_CLI_BUILD_NAME }} --build-number=${{ env.JFROG_CLI_BUILD_NUMBER }} --project ${{ env.JFROG_CLI_BUILD_PROJECT }}
       -
         name: Scan build
         if: github.ref == 'refs/heads/main'
         run: |
-          jf build-scan --vuln --fail=false --build-name=${{ JFROG_CLI_BUILD_NAME }} --build-number=${{ env.JFROG_CLI_BUILD_NUMBER }} --project=${{ env.JFROG_CLI_BUILD_PROJECT }} 
+          jf build-scan --vuln --fail=false --build-name=${{ env.JFROG_CLI_BUILD_NAME }} --build-number=${{ env.JFROG_CLI_BUILD_NUMBER }} --project=${{ env.JFROG_CLI_BUILD_PROJECT }} 
      
