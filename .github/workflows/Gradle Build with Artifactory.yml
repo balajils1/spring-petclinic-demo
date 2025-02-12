@@ -54,6 +54,7 @@ jobs:
       -
         name: JFrog Curation Audit
         run: |
+          jf mvn-config --repo-resolve-releases mikeho-petclinic-gradle-remote --repo-resolve-snapshots mikeho-petclinic-gradle-remote --repo-deploy-releases mikeho-petclinic-gradle-release-local --repo-deploy-snapshots mikeho-petclinic-gradle-dev-local
           jf curation-audit
       -
         name: Audit Source Code
