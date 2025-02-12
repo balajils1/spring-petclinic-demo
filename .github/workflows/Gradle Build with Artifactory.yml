@@ -55,6 +55,8 @@ jobs:
         name: JFrog Curation Audit
         run: |
           jf mvn-config --repo-resolve-releases mikeho-petclinic-gradle-remote --repo-resolve-snapshots mikeho-petclinic-gradle-remote --repo-deploy-releases mikeho-petclinic-gradle-release-local --repo-deploy-snapshots mikeho-petclinic-gradle-dev-local
+          echo "petclinicArtifactName=$(mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout)" >> $GITHUB_ENV
+          echo "petclinicVersion=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
           jf curation-audit
       -
         name: Audit Source Code
@@ -78,5 +80,5 @@ jobs:
         name: Scan build
         if: github.ref == 'refs/heads/main'
         run: |
-          jf build-scan --vuln --fail=false --project ${{ env.JFROG_CLI_BUILD_PROJECT }} 
+          jf build-scan --vuln --fail=false --project ${{ env.JFROG_CLI_BUILD_PROJECT }} ${{ env.petclinicArtifactName }} ${{ env.petclinicVersion }}
      
