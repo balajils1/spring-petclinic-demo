@@ -66,7 +66,7 @@ jobs:
         name: Build Gradle package
         run: |
           jf gradle clean build --project ${{ env.JFROG_CLI_BUILD_PROJECT }}
-          jf gradle artifactoryPublish --project ${{ env.JFROG_CLI_BUILD_PROJECT }} --scan=true    
+          jf gradle artifactoryPublish --build-name=petclinc-gradle --build-number=${{ env.JFROG_CLI_BUILD_NUMBER }} --project ${{ env.JFROG_CLI_BUILD_PROJECT }} --scan=true    
           
       -
         name: Publish build info
