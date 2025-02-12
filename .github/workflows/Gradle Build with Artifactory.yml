@@ -76,8 +76,12 @@ jobs:
           # jf rt build-collect-env --project ${{ env.JFROG_CLI_BUILD_PROJECT }} ${{ env.JFROG_CLI_BUILD_NAME }} ${{ env.JFROG_CLI_BUILD_NUMBER }}  
           # Collect VCS details from Git and add them to the build
           # jf rt build-add-git --project ${{ env.JFROG_CLI_BUILD_PROJECT }} ${{ env.JFROG_CLI_BUILD_NAME }} ${{ env.JFROG_CLI_BUILD_NUMBER }}
-      -
-        name: Scan build
+
+      - name: Sleep for 30 seconds
+        run: sleep 180s
+        shell: bash
+      
+      - name: Scan build
         if: github.ref == 'refs/heads/main'
         run: |
           jf build-scan --vuln --fail=false --project=${{ env.JFROG_CLI_BUILD_PROJECT }} ${{ env.JFROG_CLI_BUILD_NAME }} ${{ env.JFROG_CLI_BUILD_NUMBER }}  
