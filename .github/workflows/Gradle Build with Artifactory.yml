@@ -18,7 +18,7 @@ jobs:
   build:
     name: 'Build Spring Petclinic'
     env:
-      JFROG_CLI_BUILD_NAME: 'Petclinic Using Gradle'
+      JFROG_CLI_BUILD_NAME: 'petclinc-gradle'
       JFROG_CLI_BUILD_NUMBER: ${{ github.run_number }}
       JFROG_CLI_BUILD_PROJECT: ${{ vars.JF_PROJECT }}
       JFROG_CLI_LOG_LEVEL: INFO
@@ -65,20 +65,20 @@ jobs:
       -
         name: Build Gradle package
         run: |
-          jf gradle clean build --project ${{ env.JFROG_CLI_BUILD_PROJECT }}
-          jf gradle artifactoryPublish --build-name=petclinc-gradle --build-number=${{ env.JFROG_CLI_BUILD_NUMBER }} --project ${{ env.JFROG_CLI_BUILD_PROJECT }} --scan=true    
+          jf gradle clean build --build-name=${{ JFROG_CLI_BUILD_NAME }} --build-number=${{ env.JFROG_CLI_BUILD_NUMBER }} --project=${{ env.JFROG_CLI_BUILD_PROJECT }}
+          jf gradle artifactoryPublish --build-name=${{ JFROG_CLI_BUILD_NAME }} --build-number=${{ env.JFROG_CLI_BUILD_NUMBER }} --project=${{ env.JFROG_CLI_BUILD_PROJECT }} --scan=true    
           
       -
         name: Publish build info
         if: github.ref == 'refs/heads/main'
         run: |
           # Collect environment variables for the build
-          jf rt bce --project ${{ env.JFROG_CLI_BUILD_PROJECT }} 
+          jf rt bce --build-name=${{ JFROG_CLI_BUILD_NAME }} --build-number=${{ env.JFROG_CLI_BUILD_NUMBER }} --project ${{ env.JFROG_CLI_BUILD_PROJECT }} 
           # Collect VCS details from Git and add them to the build
-          jf rt bag --project ${{ env.JFROG_CLI_BUILD_PROJECT }}
+          jf rt bag --build-name=${{ JFROG_CLI_BUILD_NAME }} --build-number=${{ env.JFROG_CLI_BUILD_NUMBER }} --project ${{ env.JFROG_CLI_BUILD_PROJECT }}
       -
         name: Scan build
         if: github.ref == 'refs/heads/main'
         run: |
-          jf build-scan --vuln --fail=false --project ${{ env.JFROG_CLI_BUILD_PROJECT }} 
+          jf build-scan --vuln --fail=false --build-name=${{ JFROG_CLI_BUILD_NAME }} --build-number=${{ env.JFROG_CLI_BUILD_NUMBER }} --project=${{ env.JFROG_CLI_BUILD_PROJECT }} 
      
