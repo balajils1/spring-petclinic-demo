@@ -18,7 +18,7 @@ jobs:
   build:
     name: 'Build Spring Petclinic'
     env:
-      JFROG_CLI_BUILD_NAME: 'Petclinic from GitHub workflow'
+      JFROG_CLI_BUILD_NAME: 'Petclinic Using Gradle'
       JFROG_CLI_BUILD_NUMBER: ${{ github.run_number }}
       JFROG_CLI_BUILD_PROJECT: ${{ vars.JF_PROJECT }}
       JFROG_CLI_LOG_LEVEL: INFO
@@ -50,7 +50,7 @@ jobs:
       -
         name: Configure Build
         run: |
-          jf gradlec --repo-resolve mikeho-petclinc-gradle-remote --repo-deploy mikeho-petclinic-gradle-dev-local
+          jf gradle-config --repo-resolve mikeho-petclinic-gradle-remote --repo-deploy mikeho-petclinic-gradle-dev-local --project ${{ env.JFROG_CLI_BUILD_PROJECT }}
       #-
       #  name: JFrog Curation Audit
       #  run: |
