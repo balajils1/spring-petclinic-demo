@@ -49,6 +49,14 @@ dependencies {
   checkstyle 'com.puppycrawl.tools:checkstyle:10.12.5'
 }
 
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
 tasks.named('test') {
   useJUnitPlatform()
 }
