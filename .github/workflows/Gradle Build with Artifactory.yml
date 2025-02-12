@@ -62,9 +62,10 @@ jobs:
       -
         name: Build Gradle package
         run: |
-          #jf gradle clean artifactoryPublish -b ./build.gradle --build-name "${{ env.JFROG_CLI_BUILD_NAME }}" --build-number "${{ env.JFROG_CLI_BUILD_NUMBER }}" --project ${{ env.JFROG_CLI_BUILD_PROJECT }} --scan true
-          #./gradlew build
           jf gradle clean build
+          jf gradle artifactoryPublish --build-name "${{ env.JFROG_CLI_BUILD_NAME }}" --build-number "${{ env.JFROG_CLI_BUILD_NUMBER }}" --project ${{ env.JFROG_CLI_BUILD_PROJECT }} --scan true
+          #./gradlew build
+          
           
       -
         name: Publish build info
