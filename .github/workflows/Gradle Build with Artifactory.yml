@@ -50,7 +50,7 @@ jobs:
       -
         name: Configure Build
         run: |
-          jf gradle-config --repo-resolve mikeho-petclinic-gradle-remote --repo-deploy mikeho-petclinic-gradle-release-local --project ${{ env.JFROG_CLI_BUILD_PROJECT }}
+          jf gradle-config --repo-resolve mikeho-petclinic-gradle-remote --repo-deploy mikeho-petclinic-gradle-release-local
       #-
       #  name: JFrog Curation Audit
       #  run: |
