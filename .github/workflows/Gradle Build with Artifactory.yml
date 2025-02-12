@@ -52,16 +52,16 @@ jobs:
           jf gradlec --repo-resolve mikeho-petclinc-gradle-remote --repo-deploy mikeho-petclinic-gradle-dev-local
           #echo "petclinicArtifactName=$(mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout)" >> $GITHUB_ENV
           #echo "petclinicVersion=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
-      -
-        name: JFrog Curation Audit
-        run: |
-          jf curation-audit
+      #-
+      #  name: JFrog Curation Audit
+      #  run: |
+      #    jf curation-audit
       -
         name: Audit Source Code
         run: |
           jf audit --licenses --format=table --gradle=true
       -
-        name: Build Maven package
+        name: Build Gradle package
         run: |
           #jf mvn clean install -DskipTests=true -Dtest=!PostgresIntegrationTests* '-Dspring-javaformat.skip=true' --project ${{ env.JFROG_CLI_BUILD_PROJECT }} -Dartifactory.publish.artifacts=false
           jf gradle clean artifactoryPublish --build-name "${{ env.JFROG_CLI_BUILD_NAME }}" --build-number "${{ env.JFROG_CLI_BUILD_NUMBER }}" --project ${{ env.JFROG_CLI_BUILD_PROJECT }} --scan true
