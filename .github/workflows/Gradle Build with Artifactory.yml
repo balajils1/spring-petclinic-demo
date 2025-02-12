@@ -64,7 +64,8 @@ jobs:
         name: Build Gradle package
         run: |
           #jf mvn clean install -DskipTests=true -Dtest=!PostgresIntegrationTests* '-Dspring-javaformat.skip=true' --project ${{ env.JFROG_CLI_BUILD_PROJECT }} -Dartifactory.publish.artifacts=false
-          jf gradle clean artifactoryPublish --build-name "${{ env.JFROG_CLI_BUILD_NAME }}" --build-number "${{ env.JFROG_CLI_BUILD_NUMBER }}" --project ${{ env.JFROG_CLI_BUILD_PROJECT }} --scan true
+          #jf gradle clean artifactoryPublish --build-name "${{ env.JFROG_CLI_BUILD_NAME }}" --build-number "${{ env.JFROG_CLI_BUILD_NUMBER }}" --project ${{ env.JFROG_CLI_BUILD_PROJECT }} --scan true
+          ./gradlew build
       #-
       #  name: Publish build info
       #  if: github.ref == 'refs/heads/main'
