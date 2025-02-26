@@ -77,5 +77,6 @@ jobs:
       - name: Scan build
         if: github.ref == 'refs/heads/main'
         run: |
+          sleep 30s
           jf build-scan --vuln --fail=false ${{ env.JFROG_CLI_BUILD_NAME }} ${{ env.JFROG_CLI_BUILD_NUMBER }}  
      
