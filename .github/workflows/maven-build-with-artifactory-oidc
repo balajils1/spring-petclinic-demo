@@ -44,8 +44,8 @@ jobs:
         env:
           JF_URL: ${{ vars.JF_URL }}
         with:
-          oidc-provider-name: mikeho-github
-          oidc-audience: mikeho-audience
+          oidc-provider-name: balajils1
+          oidc-audience: balajils1
       -
         name: Configure Build
         run: |
