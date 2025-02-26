@@ -49,7 +49,7 @@ jobs:
       -
         name: Configure Build
         run: |
-          jf mvn-config --repo-resolve-releases mikeho-petclinc-mvn-remote --repo-resolve-snapshots mikeho-petclinc-mvn-remote --repo-deploy-releases mikeho-petclinc-mvn-libs-release --repo-deploy-snapshots mikeho-petclinc-mvn-libs-snapshot
+          jf mvn-config --repo-resolve-releases mikeho-petclinc-mvn-maven-remote --repo-resolve-snapshots mikeho-petclinc-mvn-maven-remote --repo-deploy-releases mikeho-petclinc-mvn-libs-release --repo-deploy-snapshots mikeho-petclinc-mvn-libs-snapshot
           echo "petclinicArtifactName=$(mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout)" >> $GITHUB_ENV
           echo "petclinicVersion=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
       -
