@@ -77,13 +77,13 @@ jobs:
         name: Build Docker image
         if: github.ref == 'refs/heads/main'
         run: |
-          jf docker build -t soleng.jfrog.io/fg-docker/${{ env.petclinicArtifactName }}:${{ env.petclinicVersion }} --build-arg petclinicArtifact=./target/${{ env.petclinicArtifactName }}-${{ env.petclinicVersion }}.jar .
-          jf docker push soleng.jfrog.io/fg-docker/${{ env.petclinicArtifactName }}:${{ env.petclinicVersion }} 
+          jf docker build -t adoption.jfrog.io/fg--docker/${{ env.petclinicArtifactName }}:${{ env.petclinicVersion }} --build-arg petclinicArtifact=./target/${{ env.petclinicArtifactName }}-${{ env.petclinicVersion }}.jar .
+          jf docker push adoption.jfrog.io/fg--docker/${{ env.petclinicArtifactName }}:${{ env.petclinicVersion }} 
       -
         name: Scan Docker image
         if: github.ref == 'refs/heads/main'
         run: |
-          jf docker scan soleng.jfrog.io/fg-docker/${{ env.petclinicArtifactName }}:${{ env.petclinicVersion }} --severity='HIGH,CRITICAL' --vuln
+          jf docker scan adoption.jfrog.io/fg--docker/${{ env.petclinicArtifactName }}:${{ env.petclinicVersion }} --severity='HIGH,CRITICAL' --vuln
       -
         name: Publish build info
         if: github.ref == 'refs/heads/main'
