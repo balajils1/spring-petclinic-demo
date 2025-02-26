@@ -47,11 +47,11 @@ jobs:
           
       - name: Configure Build
         run: |
-          jf gradle-config --repo-resolve mikeho-petclinic-gradle-remote --repo-deploy mikeho-petclinic-gradle-release-local
+          jf gradle-config --repo-resolve mikeho-petclinic--gradle-maven-remote --repo-deploy mikeho-petclinic--gradle-release-local
       
       - name: JFrog Curation Audit
         run: |
-          jf mvn-config --repo-resolve-releases mikeho-petclinic-gradle-remote --repo-resolve-snapshots mikeho-petclinic-gradle-remote --repo-deploy-releases mikeho-petclinic-gradle-release-local --repo-deploy-snapshots mikeho-petclinic-gradle-dev-local
+          jf mvn-config --repo-resolve-releases mikeho-petclinic--gradle-maven-remote --repo-resolve-snapshots mikeho-petclinic--gradle-maven-remote --repo-deploy-releases mikeho-petclinic--gradle-release-local --repo-deploy-snapshots mikeho-petclinic--gradle-dev-local
           echo "petclinicArtifactName=$(mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout)" >> $GITHUB_ENV
           echo "petclinicVersion=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
           jf curation-audit
